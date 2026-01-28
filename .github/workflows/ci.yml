@@ -1,0 +1,11 @@
+name: Pipeline Guardian - CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  security:
+    uses: ./.github/workflows/security-sast.yml
