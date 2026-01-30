@@ -17,3 +17,7 @@ jobs:
   container:
     needs: dependencies
     uses: ./.github/workflows/security-container.yml
+
+  dast:
+    needs: container
+    uses: ./.github/workflows/security-dast.yml

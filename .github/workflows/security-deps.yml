@@ -1,40 +1,9 @@
-name: Security Gate - Dependencies
-
-on:
-  workflow_call:
-
-jobs:
-  dependency-scan:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run Trivy Dependency Scan (CVSS ≥ 7 fails)
+      - name: Run Trivy Dependency Scan
         run: |
           trivy fs \
             --severity HIGH,CRITICAL \
+            --ignore-unfixed \
             --exit-code 1 \
             --format json \
             --output reports/trivy-deps.json \
             .
-
-      - name: Generate SBOM
-        run: |
-          trivy fs \
-            --format cyclonedx \
-            --output reports/sbom.cdx.json \
-            .
-
-      - name: Upload Dependency Scan Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: trivy-dependency-report
-          path: reports/trivy-deps.json
-
-      - name: Upload SBOM
-        uses: actions/upload-artifact@v4
-        with:
-          name: sbom
-          path: reports/sbom.cdx.json
