@@ -11,6 +11,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          version: latest
+
       - name: Run Trivy Dependency Scan
         run: |
           trivy fs \
